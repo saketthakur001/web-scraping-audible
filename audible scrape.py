@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-# https://www.audible.com/search?audible_programs=20956260011&author_author=&keywords=&narrator=full-cast&publisher=&sort=review-rank&title=&ref=a_search_l1_audible_programs_0&pf_rd_p=daf0f1c8-2865-4989-87fb-15115ba5a6d2&pf_rd_r=3CSM3Q3AG46QRQ0TVK0F&pageLoadId=dELu6hUurPGV8fAu&creativeId=9648f6bf-4f29-4fb4-9489-33163c0bb63e
-# https://www.audible.com/search?audible_programs=20956260011&author_author=&keywords=&narrator=full-cast&pageSize=100&publisher=&sort=review-rank&title=&ref=a_search_c4_pageSize_3&pf_rd_p=1d79b443-2f1d-43a3-b1dc-31a2cd242566&pf_rd_r=K0EBBRG3N62K36R90PHR&pageLoadId=EOIorMnVIicvgUHB&creativeId=18cc2d83-2aa9-46ca-8a02-1d1cc7052e2a
 # Send a GET request to the URL of this page
 def generate_link(page=1, audible_programs="20956260011", author_author="", keywords="", narrator="full-cast", publisher="", sort="review-rank", title="", pageSize=100):
   base_url = "https://www.audible.com/search?"
