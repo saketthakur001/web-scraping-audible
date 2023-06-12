@@ -25,122 +25,177 @@ def generate_link(page=1, audible_programs="20956260011", author_author="", keyw
   query = "&".join([f"{key}={value}" for key, value in params.items()])
   return base_url + query
 
-
+# Define a function to scrape all details from a page
 def scrape_all_details(page):
+  """Scrape product details from an Amazon page.
+
+  Args:
+    page (str): The URL of the page to scrape.
+
+  Returns:
+    list: A list of dictionaries containing product details.
+  """
   # Send a GET request to the page and parse the HTML content
-  response = requests.get(page)
-  soup = BeautifulSoup(response.content, "html.parser")
+  # response = requests.get(page)
+  # soup = BeautifulSoup(response.content, "html.parser")
 
   # Find all the elements that contain the product details
   products = soup.find_all("div", class_="bc-col-responsive bc-col-6")
+
+  # Find all the image links
+  img_tags = soup.find_all("img")
+  # list of image
+  urls = []
+  # Loop through the img tags and get the src attribute of each one
+  for i, img_tag in enumerate(img_tags):
+    try:
+      src = img_tag["src"]
+      # print(src) # Print the image URL
+      urls.append(src)
+
+    except:
+      src = None
+      urls.append(src)
+      # print(src) # Print the image URL
+  cover_image = []
+  for image_link in urls:
+    if "https://m.media-amazon.com/images/I" in image_link or ".jpg" in image_link:
+      # print(image_link)
+      cover_image.append(image_link)
+  if len(cover_image) % 10 != 0:
+    print(f"Error: {len(cover_image)} images found")
+    return None
+  else:
+    print(f"Success: {len(cover_image)} images found")
+
 
   # Create an empty list to store the details
   details_list = []
 
   # Loop through each product element and extract the details
   for product in products:
+    # Initialize an empty dictionary to store the product details
+    details_dict = {}
+
     # Try to find the title element and handle the exception if not found
     try:
       title = product.find("h3", class_="bc-heading").text.strip()
+      details_dict["title"] = title
     except AttributeError:
-      title = "N/A"
+      # Assign None if title is not found
+      details_dict["title"] = None
+
     # Try to find the subtitle element and handle the exception if not found
     try:
-      subtitle = product.find("span", class_="subtitle").text.strip()
+      subtitle = product.find("li", class_="bc-list-item subtitle").text.strip()
+      details_dict["subtitle"] = subtitle
     except AttributeError:
-      subtitle = "N/A"
+      # Assign None if subtitle is not found
+      details_dict["subtitle"] = None
+
     # Try to find the author element and handle the exception if not found
     try:
       author = product.find("li", class_="authorLabel").text.strip()
+      details_dict["author"] = author
     except AttributeError:
-      author = "N/A"
+      # Assign None if author is not found
+      details_dict["author"] = None
+
     # Try to find the narrator element and handle the exception if not found
     try:
       narrator = product.find("li", class_="narratorLabel").text.strip()
+      details_dict["narrator"] = narrator
     except AttributeError:
-      narrator = "N/A"
+      # Assign None if narrator is not found
+      details_dict["narrator"] = None
+
+    # Try to find the series element and handle the exception if not found
     try:
       series = product.find("li", class_="seriesLabel").text.strip()
+      details_dict["series"] = series
     except AttributeError:
-      series = "N/A"
+      # Assign None if series is not found
+      details_dict["series"] = None
+
+    # Try to find the length element and handle the exception if not found
     try:
       length = product.find("li", class_="runtimeLabel").text.strip()
+      details_dict["length"] = length
     except AttributeError:
-      length = "N/A"
+      # Assign None if length is not found
+      details_dict["length"] = None
+
+    # Try to find the release date element and handle the exception if not found
     try:
-      release_date = product.find("li", class_="releaseDateLabel").text.strip() 
+      release_date = product.find("li", class_="releaseDateLabel").text.strip()
+      details_dict["release_date"] = release_date
     except AttributeError:
-      release_date = "N/A"
+      # Assign None if release date is not found
+      details_dict["release_date"] = None
+
+    # Try to find the language element and handle the exception if not found
     try:
       language = product.find("li", class_="languageLabel").text.strip()
+      details_dict["language"] = language
     except AttributeError:
-      language = "N/A"
-
-    try:
-      ratings = product.find("li", class_="ratingsLabel").text.strip()
-    except AttributeError:
-      ratings = "N/A"
+      # Assign None if language is not found
+      details_dict["language"] = None
 
     # Try to find the summary element and handle the exception if not found
     try:
       summary = product.find("p", class_="bc-text").text.strip()
+      details_dict["summary"] = summary
     except AttributeError:
-      summary = "N/A"
-    # # Try to find the image element and handle the exception if not found
-    # try:
-    #   image = product.find("img", class_="bc-pub-block bc-image-inset-border js-only-element").get("src")
-    # except AttributeError:
-    #   image = "N/A"
-    # # Try to find the image element and handle the exception if not found
-    # try:
-    #   image = product.find("img", attrs={"class": "bc-pub-block bc-image-inset-border js-only-element"}).get("src")
-    # except AttributeError:
-    #   image = "N/A"
+      # Assign None if summary is not found
+      details_dict["summary"] = None
 
-      # Try to find the image element and handle the exception if not found
+    # Try to find the image element and handle the exception if not found
     try:
-      image = product.find("img", class_=["bc-pub-block", "bc-image-inset-border", "js-only-element"]).get("src")
+      image = product.find("img").get("src")
+      details_dict["image"] = image
     except AttributeError:
-      image = "N/A"
-
+      # Assign None if image is not found
+      details_dict["image"] = None
 
     # Try to find the link element and handle the exception if not found
     try:
       link = product.find("a", class_="bc-link bc-color-link").get("href")
+      details_dict["link"] = link
     except AttributeError:
-      link = "N/A"
-
-    # Create a dictionary with the product details
-    details_dict = {
-      "title": title,
-      "subtitle": subtitle,
-      "author": author,
-      "narrator": narrator,
-      "series": series,
-      "length": length,
-      "release_date": release_date,
-      "language": language,
-      "ratings": ratings,
-      "summary": summary,
-      "image": image, # Add this line
-      "link": link # Add this line
-    }
+      # Assign None if link is not found
+      details_dict["link"] = None
+    
+    # Try to find the ratings element and handle the exception if not found
+    try:
+      ratings = product.find("li", class_="ratingsLabel").text.strip()
+      details_dict["ratings"] = ratings
+    except AttributeError:
+      # Assign None if ratings is not found
+      details_dict["ratings"] = None
 
     # Format the values using strip and replace methods
     for key, value in details_dict.items():
       # Remove leading and trailing whitespaces
-      value = value.strip()
-      # Replace multiple whitespaces with a single space using re.sub
-      value = re.sub("\s+", " ", value)
-      # Update the dictionary with the formatted value
-      details_dict[key] = value
+      try:
+        value = value.strip()
+              # Replace multiple whitespaces with a single space using re.sub
+        value = re.sub("\s+", " ", value)
+        # Update the dictionary with the formatted value
+        details_dict[key] = value
+      except AttributeError:
+        pass
 
     # Append the dictionary to the list
-    details_list.append(details_dict)
+    if details_dict["title"] is not None:
+      details_dict["ratings"], details_dict["votes"] = extract_rating(details_dict["ratings"])
+      details_list.append(details_dict)
 
-  # Return the list of details
+  # Add the image link to the dictionary
+  for i in range(len(details_list)):
+    details_list[i]["image"] = cover_image[i]
+
+  # Return the list with all the details
   return details_list
-
 
 
 # data = scrape_all_details()
