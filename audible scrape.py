@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import sqlite3
 import json
 import datetime
-# import date
+import time
 
 def get_authors(text, string=True):
   try:
@@ -15,10 +15,42 @@ def get_authors(text, string=True):
     return None #[None]
 
 # Send a GET request to the URL of this page
-def generate_link(page=1, audible_programs="20956260011", author_author="", keywords="", narrator="full-cast", publisher="", sort="review-rank", title="", pageSize=50):
+
+def generate_link(page=1, genre="Science Fiction", author_author="", keywords="", narrator="", publisher="", sort="", title="", pageSize=50):
+  # sort = "Popular", "Relevance", "Newest Arrivals", "Customer Rating", "Price - Low to High", "Price - High to Low", "Featured"
+  # genre = "Science Fiction", "Fantasy", "Sci-Fi & Fantasy Anthologies", etc.
+
   base_url = "https://www.audible.com/search?"
+  # A dictionary that maps genre names to node values
+  genre_dict = {
+    "Science Fiction": "18580606011",
+    "Fantasy": "18580607011",
+    "Sci-Fi & Fantasy Anthologies": "18580608011",
+    "Arts & Entertainment": "18571910011",
+    "Music": "18571942011",
+    "Art": "18571913011",
+    "Entertainment & Performing Arts": "18571923011",
+    "Computers & Technology": "18573211011",
+    "Education & Learning": "18573267011",
+    "Education": "18573268011",
+    "Erotica": "18573351011",
+    "Comedy & Humor": "24427740011",
+    "Literature & Fiction": "18574426011",
+    "Genre Fiction": "18574456011",
+    "Psychological": "18574475011",
+    "Coming of Age": "18574461011",
+    "Biographies & Memoirs": "18571951011",
+    "True Crime": "18572017011",
+    "Adventurers, Explorers & Survival": "18571952011",
+    "Professionals & Academics": "18572005011",
+    "Teen & Young Adult": "18580715011",
+    "Romance": "18581004011",
+    "Money & Finance": "18574547011",
+    "Mystery, Thriller & Suspense": "18574597011",
+    "Relationships, Parenting & Personal Development": "18574784011"
+  }
   params = {
-    "audible_programs": audible_programs,
+    "audible_programs": "20956260011", # This is the main category for Science Fiction & Fantasy
     "author_author": author_author,
     "keywords": keywords,
     "narrator": narrator,
@@ -26,7 +58,8 @@ def generate_link(page=1, audible_programs="20956260011", author_author="", keyw
     "publisher": publisher,
     "sort": sort,
     "title": title,
-    "ref": "a_search_l1_audible_programs_0",
+    "node": genre_dict.get(genre, ""), # Get the value from the dictionary or use an empty string if not found
+    "ref": f"a_search_l1_catRefs_{genre_dict.get(genre, '0')[-2:]}", # Use the last two digits of the node value for the ref parameter
     "pf_rd_p": "daf0f1c8-2865-4989-87fb-15115ba5a6d2",
     "pf_rd_r": "3CSM3Q3AG46QRQ0TVK0F",
     "pageLoadId": "dELu6hUurPGV8fAu",
@@ -85,8 +118,8 @@ def hour_min_to_min(tim):
 
 def scrape_all_details(page):
 # Send a GET request to the page and parse the HTML content
-  # response = requests.get(page)
-  # soup = BeautifulSoup(response.content, "html.parser")
+  response = requests.get(page)
+  soup = BeautifulSoup(response.content, "html.parser")
 
   # Find all the elements that contain the product details
   products = soup.find_all("div", class_="bc-col-responsive bc-col-6")
@@ -303,6 +336,10 @@ class AudibleDB:
                                 """,
                              (title, subtitle, author, narrator, series, length, release_date, language, summary, image, link, ratings, votes))
                              # print if data is inserted
+            # print(title)
+            # # print the new inserted titles
+            if self.cur.rowcount != 0:
+                print(title)
 
         # Commit the changes to the database
         self.conn.commit()
@@ -361,16 +398,28 @@ class AudibleDB:
 # request = requests.get(generate_link())
 # soup = BeautifulSoup(request.text, "html.parser")
 
-data = scrape_all_details(generate_link())
+# data = scrape_all_details(generate_link())
 
-
-
-# Create an instance of the class
-db = AudibleDB()
-
-# Call the create_db method to create the database and table
-db.create_db()
+# print(generate_link())
+if __name__ == "__main__":
+    start_page = 1
+    end_page = 10
+    # Create an instance of the class
+    db = AudibleDB()
+    # Call the create_db method to create the database and table
+    db.create_db()
+    while start_page <= end_page:
+        # Scrape the data from the website
+        data = scrape_all_details(generate_link(page=start_page, narrator="", sort=""))
+        # Call the insert_data method to insert the data into the table
+        db.insert_data(data)
+        # Increment the page number
+        start_page += 1
+        # Wait for 5 seconds before scraping the next page
+        time.sleep(3)
+        # break
+    db.close_db()
 
 # Call the insert_data method to insert the data into the table
-db.insert_data(data)
+# db.insert_data(data)
 # db.close_db()
