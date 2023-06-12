@@ -16,41 +16,36 @@ def get_authors(text, string=True):
 
 # Send a GET request to the URL of this page
 
-def generate_link(page=1, genre="Science Fiction", author_author="", keywords="", narrator="", publisher="", sort="", title="", pageSize=50):
+def generate_link(page=1, main_category="Science Fiction & Fantasy", genre="Science Fiction", author_author="", keywords="", narrator="", publisher="", sort="", title="", pageSize=50, language="English"):
   # sort = "Popular", "Relevance", "Newest Arrivals", "Customer Rating", "Price - Low to High", "Price - High to Low", "Featured"
+  # main_category = "Science Fiction & Fantasy", "Romance", "Mystery, Thriller & Suspense", etc.
   # genre = "Science Fiction", "Fantasy", "Sci-Fi & Fantasy Anthologies", etc.
+  # language = "English", "Spanish", "French", etc.
 
   base_url = "https://www.audible.com/search?"
+  # A dictionary that maps main category names to audible_programs values
+  main_category_dict = {
+    "Science Fiction & Fantasy": "20956260011",
+    "Romance": "2226655011",
+    "Mystery, Thriller & Suspense": "18580609011",
+    # Add more main categories as needed
+  }
   # A dictionary that maps genre names to node values
   genre_dict = {
     "Science Fiction": "18580606011",
     "Fantasy": "18580607011",
     "Sci-Fi & Fantasy Anthologies": "18580608011",
-    "Arts & Entertainment": "18571910011",
-    "Music": "18571942011",
-    "Art": "18571913011",
-    "Entertainment & Performing Arts": "18571923011",
-    "Computers & Technology": "18573211011",
-    "Education & Learning": "18573267011",
-    "Education": "18573268011",
-    "Erotica": "18573351011",
-    "Comedy & Humor": "24427740011",
-    "Literature & Fiction": "18574426011",
-    "Genre Fiction": "18574456011",
-    "Psychological": "18574475011",
-    "Coming of Age": "18574461011",
-    "Biographies & Memoirs": "18571951011",
-    "True Crime": "18572017011",
-    "Adventurers, Explorers & Survival": "18571952011",
-    "Professionals & Academics": "18572005011",
-    "Teen & Young Adult": "18580715011",
-    "Romance": "18581004011",
-    "Money & Finance": "18574547011",
-    "Mystery, Thriller & Suspense": "18574597011",
-    "Relationships, Parenting & Personal Development": "18574784011"
+    # Add more genres as needed
+  }
+  # A dictionary that maps language names to feature_six_browse-bin values
+  language_dict = {
+    "English": "18685580011",
+    "Spanish": "18685581011",
+    "French": "18685582011",
+    # Add more languages as needed
   }
   params = {
-    "audible_programs": "20956260011", # This is the main category for Science Fiction & Fantasy
+    "audible_programs": main_category_dict.get(main_category, ""), # Get the value from the dictionary or use an empty string if not found
     "author_author": author_author,
     "keywords": keywords,
     "narrator": narrator,
@@ -59,7 +54,8 @@ def generate_link(page=1, genre="Science Fiction", author_author="", keywords=""
     "sort": sort,
     "title": title,
     "node": genre_dict.get(genre, ""), # Get the value from the dictionary or use an empty string if not found
-    "ref": f"a_search_l1_catRefs_{genre_dict.get(genre, '0')[-2:]}", # Use the last two digits of the node value for the ref parameter
+    "feature_six_browse-bin": language_dict.get(language, ""), # Get the value from the dictionary or use an empty string if not found
+    "ref": f"a_search_l1_audible_programs_{language_dict.get(language, '0')[-2:]}", # Use the last two digits of the feature_six_browse-bin value for the ref parameter
     "pf_rd_p": "daf0f1c8-2865-4989-87fb-15115ba5a6d2",
     "pf_rd_r": "3CSM3Q3AG46QRQ0TVK0F",
     "pageLoadId": "dELu6hUurPGV8fAu",
@@ -400,6 +396,33 @@ class AudibleDB:
 
 # data = scrape_all_details(generate_link())
 
+genre_dict = {
+  "Science Fiction": "18580606011",
+  "Fantasy": "18580607011",
+  "Sci-Fi & Fantasy Anthologies": "18580608011",
+  "Arts & Entertainment": "18571910011",
+  "Music": "18571942011",
+  "Art": "18571913011",
+  "Entertainment & Performing Arts": "18571923011",
+  "Computers & Technology": "18573211011",
+  "Education & Learning": "18573267011",
+  "Education": "18573268011",
+  "Erotica": "18573351011",
+  "Comedy & Humor": "24427740011",
+  "Literature & Fiction": "18574426011",
+  "Genre Fiction": "18574456011",
+  "Psychological": "18574475011",
+  "Coming of Age": "18574461011",
+  "Biographies & Memoirs": "18571951011",
+  "True Crime": "18572017011",
+  "Adventurers, Explorers & Survival": "18571952011",
+  "Professionals & Academics": "18572005011",
+  "Teen & Young Adult": "18580715011",
+  "Romance": "18581004011",
+  "Money & Finance": "18574547011",
+  "Mystery, Thriller & Suspense": "18574597011",
+  "Relationships, Parenting & Personal Development": "18574784011"
+}
 # print(generate_link())
 if __name__ == "__main__":
     start_page = 1
@@ -409,8 +432,11 @@ if __name__ == "__main__":
     # Call the create_db method to create the database and table
     db.create_db()
     while start_page <= end_page:
+        link = generate_link(page=start_page, narrator="", sort="", genre="Science Fiction")
+        print(link)
+        break
         # Scrape the data from the website
-        data = scrape_all_details(generate_link(page=start_page, narrator="", sort=""))
+        data = scrape_all_details()
         # Call the insert_data method to insert the data into the table
         db.insert_data(data)
         # Increment the page number
