@@ -7,7 +7,21 @@ body {
 /* Styling the h1 element to have a center alignment and a yellow color */
 h1 {
     text-align: center;
-    color: yellow;
+    color: rgb(215, 169, 41);
+    /* Adding a text shadow effect */
+    text-shadow: 2px 2px 4px black;
+    /* Adding a bounce animation */
+    animation: bounce 1s infinite;
+}
+
+/* Defining the bounce animation keyframes */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* Styling the search bar div to have a center alignment and some margin */
@@ -46,6 +60,16 @@ h1 {
     border: 2px solid black;
     padding: 10px;
     margin: 10px;
+    /* Adding a box shadow effect */
+    box-shadow: 4px 4px 8px black;
+    /* Adding a transition effect */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Adding a hover effect to the card class */
+.card:hover {
+    /* Scaling up the card on hover */
+    transform: scale(1.1);
 }
 
 /* Styling the card image class to have a fixed width and height */
