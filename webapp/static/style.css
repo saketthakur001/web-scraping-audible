@@ -1,6 +1,6 @@
 /* Styling the body element to have a black background color and a sans-serif font family */
 body {
-    background-color: black;
+    background-color: rgb(36, 36, 36);
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -9,7 +9,7 @@ h1 {
     text-align: center;
     color: rgb(215, 169, 41);
     /* Adding a text shadow effect */
-    text-shadow: 2px 2px 4px black;
+    /* text-shadow: 2px 2px 4px black; */
     /* Adding a bounce animation */
     animation: bounce 1s infinite;
 }
@@ -24,15 +24,21 @@ h1 {
     }
 }
 
-/* Styling the search bar div to have a center alignment and some margin */
-.search-bar {
-    text-align: center;
+/* Creating a flex container for the filters and the search bar */
+.search-and-filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 10px;
 }
 
-/* Styling the filters div to have a center alignment and some margin */
+/* Adding some margin to the search bar */
+.search-bar {
+    margin: 10px;
+}
+
+/* Adding some margin to the filters */
 .filters {
-    text-align: center;
     margin: 10px;
 }
 
@@ -56,14 +62,25 @@ h1 {
 
 /* Styling the card class to have a yellow background color, a black border, some padding and some margin */
 .card {
+    width: 200px;
+    height: 300px;
+    margin: 1px;
     background-color: yellow;
     border: 2px solid black;
     padding: 10px;
-    margin: 10px;
+    margin: 5px;
     /* Adding a box shadow effect */
     box-shadow: 4px 4px 8px black;
     /* Adding a transition effect */
     transition: transform 0.3s ease-in-out;
+}
+
+/* Using media queries to change the card size for smaller screens */
+@media (max-width: 768px) {
+    .card {
+        width: 200px;
+        height: 300px;
+    }
 }
 
 /* Adding a hover effect to the card class */
@@ -71,39 +88,67 @@ h1 {
     /* Scaling up the card on hover */
     transform: scale(1.1);
 }
-
 /* Styling the card image class to have a fixed width and height */
-.card-image {
+/* .card-image {
     width: 200px;
     height: 200px;
-}
+} */
 
 /* Styling the card content class to have some padding and margin */
+/* .card-content {
+    padding: 5px;
+    margin: 5px;
+} */
+
+/* Using a linear-gradient function to create a gradient background for the card content class */
 .card-content {
-    padding: 10px;
-    margin: 10px;
+    /* set background colour to red */
+    background-color: rgb(36, 49, 60); 
 }
 
 /* Styling the card title class to have a bold font weight and a larger font size */
 .card-title {
+    text-decoration: none;
     font-weight: bold;
     font-size: 18px;
+    color: rgb(255, 255, 255);
+
 }
 
 /* Styling the card rating class to have a smaller font size and a green color */
 .card-rating {
     font-size: 14px;
     color: green;
+    /* remove the underline */
+    text-decoration: none;
 }
 
 /* Styling the card votes class to have a smaller font size and a gray color */
 .card-votes {
+    text-decoration: none;
     font-size: 14px;
-    color: gray;
+    color: rgb(255, 255, 255);
 }
+
+/* Removing the underline from the links inside the card-title class */
+.card-title a {
+    text-decoration: none;
+}
+
+/* Removing the underline from the links inside the card-rating class */
+.card-rating a {
+    text-decoration: none;
+}
+
+/* Removing the underline from the links inside the card-votes class */
+.card-votes a {
+    text-decoration: none;
+}
+
 
 /* Styling the pagination div to have a center alignment and some margin */
 .pagination {
+    text-decoration: none;
     text-align: center;
-    margin: 10px;
+    margin: 5px;
 }
