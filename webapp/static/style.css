@@ -1,17 +1,76 @@
+:root{
+
+/* 3.5 out of 5 */
+--text: #020005;
+--background: #ebdefc;
+--primary-button: #95ec22;
+--secondary-button: #e3d0fb;
+--accent: #95ec22;
+
+
+/*5 out of 5 */
+--text: #063201;
+--background: #edffeb;
+--primary-button: #01128d;
+--secondary-button: #ffffff;
+--accent: #8d0112;
+
+/* 3.2 out of 5 */
+/* --text: #000000;
+--background: #fce8fd;
+--primary-button: #e8268e;
+--secondary-button: #ffffff;
+--accent: #e8262d; */
+
+
+
+/* 3.5 out of 5 */
+/* --text: #131201;
+--background: #fcf9d4;
+--primary-button: #51f5e7;
+--secondary-button: #fbf5b7;
+--accent: #c30cd4; */
+
+/* 
+--text: #fbede4;
+--background: #1b0c04;
+--primary-button: #e4cd3a;
+--secondary-button: #223107;
+--accent: #6ea216; */
+
+/* 
+--text: #1e280b;
+--background: #f2f9e7;
+--primary-button: #226081;
+--secondary-button: #ffffff;
+--accent: #300d24; */
+
+/* 3.5  */
+/* --text: #0c2711;
+--background: #d8f3dd;
+--primary-button: #3dc298;
+--secondary-button: #c5e5ed;
+--accent: #256674; */
+}
+
 /* Styling the body element to have a black background color and a sans-serif font family */
 body {
-    background-color: rgb(36, 36, 36);
+    background-color: var(--background);
     font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Styling the h1 element to have a center alignment and a yellow color */
 h1 {
     text-align: center;
-    color: rgb(215, 169, 41);
+    /* color: rgb(215, 169, 41); */
+    color: orange;
     /* Adding a text shadow effect */
     /* text-shadow: 2px 2px 4px black; */
-    /* Adding a bounce animation */
-    animation: bounce 1s infinite;
+    /* Adding a bounce animation when only when hovering over the h1 element */
+     animation: bounce 2s infinite;
+    /* Adding a transition effect */
+    transition: transform 0.3s ease-in-out;
+
 }
 
 /* Defining the bounce animation keyframes */
@@ -34,11 +93,21 @@ h1 {
 
 /* Adding some margin to the search bar */
 .search-bar {
+    color: var(--text);
     margin: 10px;
 }
 
 /* Adding some margin to the filters */
 .filters {
+    margin: 10px;
+}
+.filters-Narrator {
+    color: var(--text);
+    margin: 10px;
+}
+
+.form-group {
+    color: var(--text);
     margin: 10px;
 }
 
@@ -65,14 +134,20 @@ h1 {
     width: 200px;
     height: 300px;
     margin: 1px;
-    background-color: yellow;
-    border: 2px solid black;
+    /* background-color: yellow; */
+    background-color: var(--primary-button);
+    border: 1px solid black;
     padding: 10px;
     margin: 5px;
     /* Adding a box shadow effect */
-    box-shadow: 4px 4px 8px black;
+    box-shadow: 8px 8px 8px  black;
     /* Adding a transition effect */
     transition: transform 0.3s ease-in-out;
+}
+
+/* Removing the underline from the links inside the card-votes class */
+.card a {
+    text-decoration: none;
 }
 
 /* Using media queries to change the card size for smaller screens */
@@ -80,6 +155,8 @@ h1 {
     .card {
         width: 200px;
         height: 300px;
+        text-decoration: none;
+
     }
 }
 
@@ -88,67 +165,81 @@ h1 {
     /* Scaling up the card on hover */
     transform: scale(1.1);
 }
-/* Styling the card image class to have a fixed width and height */
-/* .card-image {
-    width: 200px;
-    height: 200px;
-} */
-
-/* Styling the card content class to have some padding and margin */
-/* .card-content {
-    padding: 5px;
-    margin: 5px;
-} */
 
 /* Using a linear-gradient function to create a gradient background for the card content class */
+
 .card-content {
     /* set background colour to red */
-    background-color: rgb(36, 49, 60); 
+    /* background-color: var(--secondary-button); */
+    /* add a linear gradient from top left to bottom right with two colors */
+    /* add some padding and border radius */
+    /* padding: 10px; */
+    /* border-radius: 10px; */
+/* .card-content { */
+    /* set background colour to red */
+    background-color: var(--secondary-button);
+    /* add a linear gradient from top left to bottom right with two colors */
+    /* background-image: linear-gradient(to bottom right, var(--secondary-button), var(--accent)); */
+    /* set the background size to 50% width and 100% height */
+    background-size: 50% ;
+    /* prevent the background from repeating */
+    background-repeat: no-repeat;
+    /* add some padding and border radius */
+    padding: 10px;
+    /* border-radius: 10px; */
 }
 
+
+
+/*
+
+ */
 /* Styling the card title class to have a bold font weight and a larger font size */
 .card-title {
     text-decoration: none;
     font-weight: bold;
-    font-size: 18px;
-    color: rgb(255, 255, 255);
+    font-size: 14px;
+    color: var(--text);
+    /* add some margin and transition effect */
+    margin: 5px;
+    transition: transform 0.3s;
 
 }
 
 /* Styling the card rating class to have a smaller font size and a green color */
 .card-rating {
-    font-size: 14px;
-    color: green;
+    font-size: 10px;
+    color: var(--text);
     /* remove the underline */
     text-decoration: none;
+    /* add some margin and transition effect */
+    margin: 5px;
+    transition: transform 0.3s;
+
 }
 
 /* Styling the card votes class to have a smaller font size and a gray color */
 .card-votes {
     text-decoration: none;
-    font-size: 14px;
-    color: rgb(255, 255, 255);
-}
+    font-size: 10px;
+    color: var(--text);
+    /* add some margin and transition effect */
+    margin: 5px;
+    transition: transform 0.3s;
 
-/* Removing the underline from the links inside the card-title class */
-.card-title a {
-    text-decoration: none;
-}
-
-/* Removing the underline from the links inside the card-rating class */
-.card-rating a {
-    text-decoration: none;
-}
-
-/* Removing the underline from the links inside the card-votes class */
-.card-votes a {
-    text-decoration: none;
 }
 
 
 /* Styling the pagination div to have a center alignment and some margin */
 .pagination {
-    text-decoration: none;
     text-align: center;
     margin: 5px;
+}
+
+/* Adding some hover effects for the card title, rating and votes classes */
+.card-title:hover,
+.card-rating:hover,
+.card-votes:hover {
+    /* scale up the element by 10% */
+    transform: scale(1.1);
 }
