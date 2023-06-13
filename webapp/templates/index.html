@@ -7,83 +7,96 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Audible</h1>
-    <!-- Creating a form for the search bar and the filters -->
-    <form method="get" action="/">
-        <!-- Creating a div for the search bar -->
-        <div class="search-bar">
-            <label for="search">Search:</label>
-            <input type="text" id="search" name="search" value="{{ search }}">
-        </div>
-        <!-- Creating a div for the filters -->
-        <div class="filters">
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author" value="{{ author }}">
-            <label for="narrator">Narrator:</label>
-            <input type="text" id="narrator" name="narrator" value="{{ narrator }}">
-            <label for="series">Series:</label>
-            <input type="text" id="series" name="series" value="{{ series }}">
-            <label for="language">Language:</label>
-            <input type="text" id="language" name="language" value="{{ language }}">
-            <label for="min_length">Min length:</label>
-            <input type="number" id="min_length" name="min_length" value="{{ min_length }}">
-            <label for="min_rating">Min rating:</label>
-            <input type="number" id="min_rating" name="min_rating" value="{{ min_rating }}">
-            <label for="min_votes">Min votes:</label>
-            <input type="number" id="min_votes" name="min_votes" value="{{ min_votes }}">
-        </div>
-        <!-- Creating a submit button -->
-        <div class="submit-button">
-            <button type="submit">Search</button>
-        </div>        
-    </form>
+    <!-- Creating a header element for the title -->
+    <header>
+        <h1>Audible</h1>
+    </header>
+    <!-- Creating a nav element for the form -->
+    <nav>
+        <!-- Creating a form for the search bar and the filters -->
+        <form method="get" action="/">
+            <!-- Creating a div with the class form-group for the search bar -->
+            <div class="form-group">
+                <label for="search">Search:</label>
+                <input type="text" id="search" name="search" value="{{ search }}">
+            </div>
+            <!-- Creating a div with the class form-group for the filters -->
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" value="{{ author }}">
+                <label for="narrator">Narrator:</label>
+                <input type="text" id="narrator" name="narrator" value="{{ narrator }}">
+                <label for="series">Series:</label>
+                <input type="text" id="series" name="series" value="{{ series }}">
+                <label for="language">Language:</label>
+                <input type="text" id="language" name="language" value="{{ language }}">
+                <label for="min_length">Min length:</label>
+                <input type="number" id="min_length" name="min_length" value="{{ min_length }}">
+                <label for="min_rating">Min rating:</label>
+                <input type="number" id="min_rating" name="min_rating" value="{{ min_rating }}">
+                <label for="min_votes">Min votes:</label>
+                <input type="number" id="min_votes" name="min_votes" value="{{ min_votes }}">
+            </div>
+            <!-- Creating a div with the class form-group for the submit button -->
+            <div class="form-group">
+                <button type="submit">Search</button>
+            </div>        
+        </form>        
+    </nav>
 
-    <!-- Creating a div for the view option -->
-    <div class="view-option">
-        <label for="view">View:</label>
-        <select id="view" name="view">
-            <option value="">Select</option>
-            <option value="dark" selected>Dark</option>
-            <option value="light">Light</option>
-        </select>
-    </div>
+    <!-- Creating a main element for the content -->
+    <main>
+        <!-- Creating a section element for the view option -->
+        <section class='view-option'>
+            <label for='view'>View:</label>
+            <!-- Changing the id attribute to name attribute -->
+            <!-- Adding an onchange event handler that reloads the page with the selected view parameter -->
+            <select name='view' onchange='window.location.href="/?search="+document.getElementById("search").value+"&author="+document.getElementById("author").value+"&narrator="+document.getElementById("narrator").value+"&series="+document.getElementById("series").value+"&language="+document.getElementById("language").value+"&min_length="+document.getElementById("min_length").value+"&min_rating="+document.getElementById("min_rating").value+"&min_votes="+document.getElementById("min_votes").value+"&page=1&per_page="+document.getElementById("per_page").value+"&view="+this.value'>
+                <option value=''>Select</option>
+                <option value='dark' selected>Dark</option>
+                <option value='light'>Light</option>
+            </select>
+        </section>
 
-    <!-- Creating a table for the data -->
-    <!-- Changing the grid template columns to repeat five times with auto width -->
-    <!-- Adding the grid-auto-flow attribute as row -->
-    <table style='display: grid; grid-template-columns: repeat(5, auto); grid-auto-flow: row;'>
-        <!-- Looping through the data and creating a card for each item -->
-        {% for item in data %}
-        <!-- Creating a card with an image tag and a div that shows the title, rating and votes -->
-        <!-- The image tag has the src attribute as the image_url and the alt attribute as the title -->
-        <!-- The link tag has the href attribute as the link and the target attribute as "_blank" and wraps around the image tag and the div -->
-        <td class='card'>
-            <a href="{{ item['link'] }}" target="_blank">
-                <img src="{{ item['image_url'] }}" alt="{{ item['title'] }}" class='card-image'>
-                <div class='card-content'>
-                    <p class='card-title'>{{ item['title'] }}</p>
-                    <p class='card-rating'>Rating: {{ item['rating'] }}</p>
-                    <p class='card-votes'>Votes: {{ item['votes'] }}</p>
-                </div>                
-            </a>            
-        </td>        
-        {% endfor %}
-    </table>
+        <!-- Creating a section element for the data -->
+        <!-- Changing the display attribute to grid -->
+        <!-- Changing the grid-template-columns attribute to repeat with auto-fit and minmax values -->
+        <!-- Removing the grid-auto-flow attribute -->
+        <section style='display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));'>
+            <!-- Looping through the data and creating a card for each item -->
+            {% for item in data %}
+            <!-- Creating a card with an image tag and a div that shows the title, rating and votes -->
+            <!-- The image tag has the src attribute as the image_url and the alt attribute as the title -->
+            <!-- The link tag has the href attribute as the link and the target attribute as "_blank" and wraps around the image tag and the div -->
+            <div class='card'>
+                <a href="{{ item['link'] }}" target="_blank">
+                    <!-- Changing the width and height attributes to 100% -->
+                    <img src="{{ item['image_url'] }}" alt="{{ item['title'] }}" class='card-image' style='width: 100%; height: 100%;'>
+                    <div class='card-content'>
+                        <p class='card-title'>{{ item['title'] }}</p>
+                        <p class='card-rating'>Rating: {{ item['rating'] }}</p>
+                        <p class='card-votes'>Votes: {{ item['votes'] }}</p>
+                    </div>                
+                </a>            
+            </div>        
+            {% endfor %}
+        </section>
 
-    <!-- Creating a div for the pagination -->
-    <div class='pagination'>
-        <!-- Creating a link for the previous page if the page is not 1 -->
-        {% if page > 1 %}
-        <a href="/?search={{ search }}&author={{ author }}&narrator={{ narrator }}&series={{ series }}&language={{ language }}&min_length={{ min_length }}&min_rating={{ min_rating }}&min_votes={{ min_votes }}&page={{ page-1 }}">Previous</a>
-        {% endif %}
-        <!-- Creating a link for the next page if there are more items in the dataframe -->
-        {% if (page*per_page) < df.shape[0] %}
-        <a href="/?search={{ search }}&author={{ author }}&narrator={{ narrator }}&series={{ series }}&language={{ language }}&min_length={{ min_length }}&min_rating={{ min_rating }}&min_votes={{ min_votes }}&page={{ page+1 }}">Next</a>
-        {% endif %}
-        <!-- Creating an input box for the per_page parameter -->
-        <label for="per_page">Results per page:</label>
-        <input type="number" id="per_page" name="per_page" value="{{ per_page }}" onchange="window.location.href='/?search='+document.getElementById('search').value+'&author='+document.getElementById('author').value+'&narrator='+document.getElementById('narrator').value+'&series='+document.getElementById('series').value+'&language='+document.getElementById('language').value+'&min_length='+document.getElementById('min_length').value+'&min_rating='+document.getElementById('min_rating').value+'&min_votes='+document.getElementById('min_votes').value+'&page=1'+'&per_page='+this.value">
-    </div>
+        <!-- Creating a section element for the pagination -->
+        <section class='pagination'>
+            <!-- Creating a link for the previous page if the page is not 1 -->
+            {% if page > 1 %}
+            <a href="/?search={{ search }}&author={{ author }}&narrator={{ narrator }}&series={{ series }}&language={{ language }}&min_length={{ min_length }}&min_rating={{ min_rating }}&min_votes={{ min_votes }}&page={{ page-1 }}">Previous</a>
+            {% endif %}
+            <!-- Creating a link for the next page if there are more items in the dataframe -->
+            {% if (page*per_page) < df.shape[0] %}
+            <a href="/?search={{ search }}&author={{ author }}&narrator={{ narrator }}&series={{ series }}&language={{ language }}&min_length={{ min_length }}&min_rating={{ min_rating }}&min_votes={{ min_votes }}&page={{ page+1 }}">Next</a>
+            {% endif %}
+            <!-- Creating an input box for the per_page parameter -->
+            <label for="per_page">Results per page:</label>
+            <input type="number" id="per_page" name="per_page" value="{{ per_page }}" onchange="window.location.href='/?search='+document.getElementById('search').value+'&author='+document.getElementById('author').value+'&narrator='+document.getElementById('narrator').value+'&series='+document.getElementById('series').value+'&language='+document.getElementById('language').value+'&min_length='+document.getElementById('min_length').value+'&min_rating='+document.getElementById('min_rating').value+'&min_votes='+document.getElementById('min_votes').value+'&page=1'+'&per_page='+this.value">
+        </section>
+    </main>
 
 </body>
 </html>
