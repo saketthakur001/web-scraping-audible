@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Audiobooks</h1>
+    <h1>Audible</h1>
     <!-- Creating a form for the search bar and the filters -->
     <form method="get" action="/">
         <!-- Creating a div for the search bar -->
@@ -49,7 +50,8 @@
 
     <!-- Creating a table for the data -->
     <!-- Changing the grid template columns to repeat five times with auto width -->
-    <table style='display: grid; grid-template-columns: repeat(5, auto);'>
+    <!-- Adding the grid-auto-flow attribute as row -->
+    <table style='display: grid; grid-template-columns: repeat(5, auto); grid-auto-flow: row;'>
         <!-- Looping through the data and creating a card for each item -->
         {% for item in data %}
         <!-- Creating a card with an image tag and a div that shows the title, rating and votes -->
