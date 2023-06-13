@@ -6,33 +6,6 @@ import sqlite3
 # Creating a Flask app
 app = Flask(__name__)
 
-# Converting the list of tuples into a pandas dataframe
-lis = [("More from Marple's Casebook",
-  'Full-Cast BBC Radio 4 Dramatisations',
-  'Agatha Christie',
-  'full cast, June Whitfield',
-  None,
-  524,
-  '2018.78561643836',
-  'English',
-  None,
-  'https://m.media-amazon.com/images/I/61dXuSSiBBL._SL500_.jpg',
-  '/pd/More-from-Marples-Casebook-Audiobook/B07DGMLZJ4',
-  5.0,
-  1002),
- ('The Path Made Clear',
-  "Discovering Your Life's Direction and Purpose",
-  'Oprah Winfrey',
-  'Oprah Winfrey, full cast',
-  None,
-  175,
-  '2019.32123287671',
-  'English',
-  None,
-  'https://m.media-amazon.com/images/I/614en0UR3sL._SL500_.jpg',
-  '/pd/The-Path-Made-Clear-Audiobook/1250317029',
-  5.0,
-  9429)]
 database_location = r"C:\Users\saket\Documents\GitHub\Pyhton\web scraping\audible.db"
 class AudibleDB:
 
@@ -63,7 +36,6 @@ class AudibleDB:
                         votes INTEGER
                     )
                     """)
-
 
         # Commit the changes to the database
         self.conn.commit()
@@ -164,6 +136,19 @@ df = pd.DataFrame(lis, columns=['title', 'subtitle', 'author', 'narrator', 'seri
 # Extracting the year from the release_date column
 df['year'] = df['release_date'].str.split('.').str[0]
 
+def get_input():
+    print('enter a test score below')
+    user_in = input()
+    if not user_in or not user_in.isdigit(): # check if input is empty or non-numeric
+        print('error, you must enter a numeric value.')
+        return get_input()
+    elif len(user_in) > 2: # check if input is too long
+        print('error, you can only enter a 2 digit number.')
+        return get_input()
+    else:
+        return user_in
+
+
 # Creating a route for the homepage
 @app.route('/')
 def home():
@@ -198,8 +183,19 @@ def home():
         filtered_df = filtered_df[filtered_df['series'] == series]
     if language:
         filtered_df = filtered_df[filtered_df['language'] == language]
-    if min_length:
-        filtered_df = filtered_df[filtered_df['length'] >= int(min_length)]
+    # if min_length:
+    #     filtered_df = filtered_df[filtered_df['length'] >= int(min_length)]
+    # Getting the min_length parameter from the request args
+    min_length = request.args.get('min_length')
+
+    # Checking if the min_length parameter is 'None'
+    if min_length == 'None':
+        # Assigning a default value of 0 to the min_length parameter
+        min_length = 0
+
+    # Filtering the dataframe by the length column based on the min_length parameter
+    filtered_df = filtered_df[filtered_df['length'] >= int(min_length)]
+
     if min_rating:
         filtered_df = filtered_df[filtered_df['rating'] >= float(min_rating)]
     if min_votes:
