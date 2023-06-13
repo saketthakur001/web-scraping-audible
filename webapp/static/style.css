@@ -1,0 +1,85 @@
+/* Styling the body element to have a light gray background color and a sans-serif font family */
+body {
+    background-color: lightgray;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Styling the h1 element to have a center alignment and a dark blue color */
+h1 {
+    text-align: center;
+    color: darkblue;
+}
+
+/* Styling the search bar div to have a center alignment and some margin */
+.search-bar {
+    text-align: center;
+    margin: 10px;
+}
+
+/* Styling the filters div to have a center alignment and some margin */
+.filters {
+    text-align: center;
+    margin: 10px;
+}
+
+/* Styling the submit button div to have a center alignment and some margin */
+.submit-button {
+    text-align: center;
+    margin: 10px;
+}
+
+/* Styling the view option div to have a right alignment and some margin */
+.view-option {
+    text-align: right;
+    margin: 10px;
+}
+
+/* Styling the data div to have a center alignment and some margin */
+.data {
+    text-align: center;
+    margin: 10px;
+}
+
+/* Styling the card class to have a white background color, a black border, some padding and some margin */
+.card {
+    background-color: white;
+    border: 2px solid black;
+    padding: 10px;
+    margin: 10px;
+}
+
+/* Styling the card image class to have a fixed width and height */
+.card-image {
+    width: 200px;
+    height: 200px;
+}
+
+/* Styling the card content class to have some padding and margin */
+.card-content {
+    padding: 10px;
+    margin: 10px;
+}
+
+/* Styling the card title class to have a bold font weight and a larger font size */
+.card-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Styling the card rating class to have a smaller font size and a green color */
+.card-rating {
+    font-size: 14px;
+    color: green;
+}
+
+/* Styling the card votes class to have a smaller font size and a gray color */
+.card-votes {
+    font-size: 14px;
+    color: gray;
+}
+
+/* Styling the pagination div to have a center alignment and some margin */
+.pagination {
+    text-align: center;
+    margin: 10px;
+}
