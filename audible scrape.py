@@ -17,7 +17,7 @@ def get_authors(text, string=True):
 # Send a GET request to the URL of this page
 
 def generate_link(page=1, main_category="Science Fiction & Fantasy", genre="Science Fiction", author_author="", keywords="", narrator="", publisher="", sort="", title="", pageSize=50, language="English"):
-  # sort = "Popular", "Relevance", "Newest Arrivals", "Customer Rating", "Price - Low to High", "Price - High to Low", "Featured"
+  # sort = "Popular", "Relevance", "Newest Arrivals", "Customer Rating", "Price - Low to High", "Price - High to Low", "Featured", "Avg. Customer Review"
   # main_category = "Science Fiction & Fantasy", "Romance", "Mystery, Thriller & Suspense", etc.
   # genre = "Science Fiction", "Fantasy", "Sci-Fi & Fantasy Anthologies", etc.
   # language = "English", "Spanish", "French", etc.
@@ -143,8 +143,8 @@ def scrape_all_details(page):
       # print(image_link)
       cover_image.append(image_link)
   if len(cover_image) % 10 != 0:
-    print(f"Error: {len(cover_image)} images found")
-    return None
+    print(f"found {len(cover_image)} images found must be the last page or and error occured")
+    # return None
   else:
     print(f"Success: {len(cover_image)} images found")
 
@@ -277,7 +277,7 @@ class AudibleDB:
     def create_db(self):
 
         # Connect to the database file or create it if it does not exist
-        self.conn = sqlite3.connect("audible.db")
+        self.conn = sqlite3.connect("audible_paid.db")
 
         # Create a cursor object to execute SQL commands
         self.cur = self.conn.cursor()
@@ -423,20 +423,38 @@ genre_dict = {
   "Mystery, Thriller & Suspense": "18574597011",
   "Relationships, Parenting & Personal Development": "18574784011"
 }
+
+def Romance(page, num=1):
+  if num == 1: 
+    genre = "Romance"
+    return  f"https://www.audible.com/search?audible_programs=20956260011&author_author=&feature_six_browse-bin=18685580011&keywords=&narrator=&node=18580518011&pageSize=50&publisher=&sort=review-rank&title=&page={page}&ref=a_search_c4_pageNum_1&pf_rd_p=1d79b443-2f1d-43a3-b1dc-31a2cd242566&pf_rd_r=3GZFCRJHPG11J59H39ZN&pageLoadId=M2BR61OaYlu76sSQ&creativeId=18cc2d83-2aa9-46ca-8a02-1d1cc7052e2a"
+  # if num == 2:
+  #   genre = "Romance Full-cast"
+  #   return https://www.audible.com/search?audible_programs=20956260011&crid=70065a2f6d0546e2b9cc499cea9af17f&i=na-audible-us&k=full-cast&keywords=full-cast&node=18580518011&pageSize=50&ref-override=a_search_t1_header_search&sort=review-rank&sprefix=full-cast%2Cna-audible-us%2C960&url=search-alias%3Dna-audible-us&ref=a_search_l1_catRefs_13&pf_rd_p=daf0f1c8-2865-4989-87fb-15115ba5a6d2&pf_rd_r=12NJ2M465JDCAWBN4MP2&pageLoadId=M0VkzU814kP9Ue6q&creativeId=9648f6bf-4f29-4fb4-9489-33163c0bb63e"
+
+def full_cast_paid_inclueded(page, num=1):
+  if num == 1:
+    return f"https://www.audible.com/search?crid=70065a2f6d0546e2b9cc499cea9af17f&i=na-audible-us&k=full-cast&keywords=full-cast&pageSize=50&ref-override=a_search_t1_header_search&sprefix=full-cast%2Cna-audible-us%2C960&url=search-alias%3Dna-audible-us&page={page}&ref=a_search_c4_pageNum_1&pf_rd_p=1d79b443-2f1d-43a3-b1dc-31a2cd242566&pf_rd_r=BW6P896DE9C8RQ7FAMX1&pageLoadId=k3CpdC9xU4rOObAb&creativeId=18cc2d83-2aa9-46ca-8a02-1d1cc7052e2a"
+
+
+
 # print(generate_link())
 if __name__ == "__main__":
-    start_page = 1
+    start_page = 2
     end_page = 10
     # Create an instance of the class
     db = AudibleDB()
     # Call the create_db method to create the database and table
     db.create_db()
     while start_page <= end_page:
-        link = generate_link(page=start_page, narrator="", sort="", genre="Science Fiction")
+        # sort ="review-rank" "Popular", "Relevance", "Newest Arrivals", "Customer Rating", "Price - Low to High", "Price - High to Low", "Featured", "Avg. Customer Review"
+        
+        # link = generate_link(page=start_page, narrator="", sort="review-rank", genre="Romance")
+        link = full_cast_paid_inclueded(page=start_page)
         print(link)
-        break
+        # break
         # Scrape the data from the website
-        data = scrape_all_details()
+        data = scrape_all_details(link)
         # Call the insert_data method to insert the data into the table
         db.insert_data(data)
         # Increment the page number
@@ -445,6 +463,29 @@ if __name__ == "__main__":
         time.sleep(3)
         # break
     db.close_db()
+
+# Arts & Entertainment                            
+# Music                                           
+# Art                                             
+# Entertainment & Performing Arts                 
+# Computers & Technology                          
+# Education & Learning                            
+# Education                                       
+# Erotica                                         
+# Comedy & Humor                                  
+# Literature & Fiction                            
+# Genre Fiction                                   
+# Psychological                                   
+# Coming of Age                                   
+# Biographies & Memoirs                           
+# True Crime                                      
+# Adventurers, Explorers & Survival               
+# Professionals & Academics                       
+# Teen & Young Adult                              
+# Romance                                         
+# Money & Finance                                 
+# Mystery, Thriller & Suspense                    
+# Relationships, Parenting & Personal Development 
 
 # Call the insert_data method to insert the data into the table
 # db.insert_data(data)
