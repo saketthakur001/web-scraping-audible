@@ -1,13 +1,13 @@
-/* Styling the body element to have a light gray background color and a sans-serif font family */
+/* Styling the body element to have a black background color and a sans-serif font family */
 body {
-    background-color: lightgray;
+    background-color: black;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Styling the h1 element to have a center alignment and a dark blue color */
+/* Styling the h1 element to have a center alignment and a yellow color */
 h1 {
     text-align: center;
-    color: darkblue;
+    color: yellow;
 }
 
 /* Styling the search bar div to have a center alignment and some margin */
@@ -40,9 +40,9 @@ h1 {
     margin: 10px;
 }
 
-/* Styling the card class to have a white background color, a black border, some padding and some margin */
+/* Styling the card class to have a yellow background color, a black border, some padding and some margin */
 .card {
-    background-color: white;
+    background-color: yellow;
     border: 2px solid black;
     padding: 10px;
     margin: 10px;
