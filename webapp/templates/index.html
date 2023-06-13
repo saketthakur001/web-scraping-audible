@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +61,7 @@
         <!-- Changing the display attribute to grid -->
         <!-- Changing the grid-template-columns attribute to repeat with auto-fit and minmax values -->
         <!-- Removing the grid-auto-flow attribute -->
-        <section style='display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));'>
+        <section style='display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));'>
             <!-- Looping through the data and creating a card for each item -->
             {% for item in data %}
             <!-- Creating a card with an image tag and a div that shows the title, rating and votes -->
@@ -71,7 +70,7 @@
             <div class='card'>
                 <a href="{{ item['link'] }}" target="_blank">
                     <!-- Changing the width and height attributes to 100% -->
-                    <img src="{{ item['image_url'] }}" alt="{{ item['title'] }}" class='card-image' style='width: 100%; height: 100%;'>
+                    <img src="{{ item['image_url'] }}" alt="{{ item['title'] }}" class='card-image' style='width: 100%; height: 70%;'>
                     <div class='card-content'>
                         <p class='card-title'>{{ item['title'] }}</p>
                         <p class='card-rating'>Rating: {{ item['rating'] }}</p>
@@ -90,7 +89,7 @@
             {% endif %}
             <!-- Creating a link for the next page if there are more items in the dataframe -->
             {% if (page*per_page) < df.shape[0] %}
-            <a href="/?search={{ search }}&author={{ author }}&narrator={{ narrator }}&series={{ series }}&language={{ language }}&min_length={{ min_length }}&min_rating={{ min_rating }}&min_votes={{ min_votes }}&page={{ page+1 }}">Next</a>
+            <a href="/?search={{ search if search else '' }}&author={{ author if author else '' }}&narrator={{ narrator if narrator else '' }}&series={{ series if series else '' }}&language={{ language if language else '' }}&min_length={{ min_length if min_length else 0 }}&min_rating={{ min_rating if min_rating else 0 }}&min_votes={{ min_votes if min_votes else 0 }}&page={{ page+1 }}">Next</a>
             {% endif %}
             <!-- Creating an input box for the per_page parameter -->
             <label for="per_page">Results per page:</label>
@@ -100,6 +99,3 @@
 
 </body>
 </html>
-```
-can you improve it further?
-  * the card only contains 

@@ -1,3 +1,4 @@
+# ```Pyhton
 # Importing Flask and other modules
 from flask import Flask, render_template, request
 import pandas as pd
@@ -148,7 +149,6 @@ def get_input():
     else:
         return user_in
 
-
 # Creating a route for the homepage
 @app.route('/')
 def home():
@@ -159,11 +159,23 @@ def home():
     narrator = request.args.get('narrator')
     series = request.args.get('series')
     language = request.args.get('language')
-    min_length = request.args.get('min_length')
-    min_rating = request.args.get('min_rating')
-    min_votes = request.args.get('min_votes')
+    min_length = request.args.get('min_length', 0) # default value is 0
+    min_rating = request.args.get('min_rating', 0)
+    # min_votes = request.args.get('min_votes')
+    min_votes = request.args.get('min_votes', 0)
     page = request.args.get('page', default=1, type=int)
     per_page = request.args.get('per_page', default=20, type=int)
+
+    # Validating the query parameters
+    try:
+        min_length = int(min_length)
+        min_rating = float(min_rating)
+        min_votes = int(min_votes)
+    except ValueError:
+        # Handle invalid values here
+        # For example, return an error message or use default values
+        return "Invalid query parameters"
+
 
     # Filtering and sorting the dataframe based on the query parameters
     filtered_df = df.copy()
@@ -183,16 +195,7 @@ def home():
         filtered_df = filtered_df[filtered_df['series'] == series]
     if language:
         filtered_df = filtered_df[filtered_df['language'] == language]
-    # if min_length:
-    #     filtered_df = filtered_df[filtered_df['length'] >= int(min_length)]
-    # Getting the min_length parameter from the request args
-    min_length = request.args.get('min_length')
-
-    # Checking if the min_length parameter is 'None'
-    if min_length == 'None':
-        # Assigning a default value of 0 to the min_length parameter
-        min_length = 0
-
+    
     # Filtering the dataframe by the length column based on the min_length parameter
     filtered_df = filtered_df[filtered_df['length'] >= int(min_length)]
 
@@ -200,6 +203,7 @@ def home():
         filtered_df = filtered_df[filtered_df['rating'] >= float(min_rating)]
     if min_votes:
         filtered_df = filtered_df[filtered_df['votes'] >= int(min_votes)]
+        
 
     # Paginating the dataframe based on the page and per_page parameters
     paginated_df = filtered_df.iloc[(page-1)*per_page:page*per_page]
@@ -208,13 +212,14 @@ def home():
     data = paginated_df.to_dict(orient='records')
 
     # Rendering the template with the data and query parameters
-    # return render_template('index.html', data=data, search=search, sort_by=sort_by, author=author, narrator=narrator, series=series, language=language, min_length=min_length, min_rating=min_rating, min_votes=min_votes, page=page, per_page=per_page)
-    # return render_template('index.html', data=data, df=df, search=search, sort_by=sort_by, author=author, narrator=narrator, series=series, language=language, min_length=min_length, min_rating=min_rating, min_votes=min_votes, page=page, per_page=per_page)
     return render_template('index.html', data=data, df=df, search=search, author=author, narrator=narrator, series=series, language=language, min_length=min_length, min_rating=min_rating, min_votes=min_votes, page=page, per_page=per_page)
+
 
 
 
 # Running the app
 if __name__ == '__main__':
     app.run(debug=True)
-    
+
+
+# ```
