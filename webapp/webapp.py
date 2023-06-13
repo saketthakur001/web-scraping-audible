@@ -213,7 +213,9 @@ def home():
 
     # Rendering the template with the data and query parameters
     # return render_template('index.html', data=data, search=search, sort_by=sort_by, author=author, narrator=narrator, series=series, language=language, min_length=min_length, min_rating=min_rating, min_votes=min_votes, page=page, per_page=per_page)
-    return render_template('index.html', data=data, df=df, search=search, sort_by=sort_by, author=author, narrator=narrator, series=series, language=language, min_length=min_length, min_rating=min_rating, min_votes=min_votes, page=page, per_page=per_page)
+    # return render_template('index.html', data=data, df=df, search=search, sort_by=sort_by, author=author, narrator=narrator, series=series, language=language, min_length=min_length, min_rating=min_rating, min_votes=min_votes, page=page, per_page=per_page)
+    return render_template('index.html', data=data, df=df, search=search, author=author, narrator=narrator, series=series, language=language, min_length=min_length, min_rating=min_rating, min_votes=min_votes, page=page, per_page=per_page)
+
 
 
 # Running the app

@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Audiobooks</title>
-</head>
-
-    <meta charset="UTF-8">
-    <title>Audiobooks</title>
     <link rel="stylesheet" href="/static/style.css">
-
+</head>
 <body>
     <h1>Audiobooks</h1>
     <!-- Creating a form for the search bar and the filters -->
@@ -46,20 +42,21 @@
         <label for="view">View:</label>
         <select id="view" name="view">
             <option value="">Select</option>
+            <option value="dark" selected>Dark</option>
             <option value="light">Light</option>
-            <option value="dark">Dark</option>
         </select>
     </div>
 
-    <!-- Creating a div for the data -->
-    <div class="data">
+    <!-- Creating a table for the data -->
+    <!-- Changing the grid template columns to repeat five times with auto width -->
+    <table style='display: grid; grid-template-columns: repeat(5, auto);'>
         <!-- Looping through the data and creating a card for each item -->
         {% for item in data %}
         <!-- Creating a card with an image tag and a div that shows the title, rating and votes -->
         <!-- The image tag has the src attribute as the image_url and the alt attribute as the title -->
-        <!-- The link tag has the href attribute as the link and wraps around the image tag and the div -->
-        <div class="card">
-            <a href="{{ item['link'] }}">
+        <!-- The link tag has the href attribute as the link and the target attribute as "_blank" and wraps around the image tag and the div -->
+        <td class='card'>
+            <a href="{{ item['link'] }}" target="_blank">
                 <img src="{{ item['image_url'] }}" alt="{{ item['title'] }}" class='card-image'>
                 <div class='card-content'>
                     <p class='card-title'>{{ item['title'] }}</p>
@@ -67,9 +64,9 @@
                     <p class='card-votes'>Votes: {{ item['votes'] }}</p>
                 </div>                
             </a>            
-        </div>        
+        </td>        
         {% endfor %}
-    </div>
+    </table>
 
     <!-- Creating a div for the pagination -->
     <div class='pagination'>
